@@ -10,6 +10,8 @@
 #' @param b also referred to as \eqn{n_{10}} as this is the count of \emph{not} event of interest under exposure of interest
 #' @param c also referred to as \eqn{n_{01}} as this is the count of event of interest under \emph{not} exposure of interest
 #' @param d also referred to as \eqn{n_{00}} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest
+#' @param alpha for construction of the \code{100*(1-alpha)\%} confidence intervals
+#' @param n_mcmc number of MCMC simulations per \code{(a,b,c,d)}-tuple
 #' @export
 #' @details
 #' It is assumed that the contingency table under consideration has drugs/exposures in the rows and outcomes/events in the columns.
@@ -45,9 +47,16 @@
 #' @examples
 #' # Singhal et al. p409 table 16. Int J Pharm Pharm Sci, Vol 7, Issue 6, 405-411
 #' bcpnn_mcmc_signal(28, 942, 17, 31435)
-#' bcpnn_mcmc_signal(c("Cisplatin-Ototoxicity" = 28), 942, 17, 31435)
+#' bcpnn_mcmc_signal(
+#'   c("Cisplatin-Ototoxicity" = 28), 942, 17, 31435
+#' )
 #' bcpnn_mcmc_signal(122, 1320, 381, 31341)
-#' bcpnn_mcmc_signal(c("Cisplatin-Ototoxicity" = 28, "Carboplatin-Pruritis" = 122), c(942, 1320), c(17, 381), c(31435, 31341))
+#' bcpnn_mcmc_signal(
+#'   c("Cisplatin-Ototoxicity" = 28, "Carboplatin-Pruritis" = 122), 
+#'   c(942, 1320), 
+#'   c(17, 381), 
+#'   c(31435, 31341)
+#' )
 
 
 
@@ -110,6 +119,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
       g11 * (g11 + g10 + g01 + g00) / ((g11 + g10) * (g11 + g01))
     )
 
+  m <- NULL # initialise (otherwise package check complains not globally available)
   mcmc_res <-
     foreach(m = 1:m_obs, .combine = data.frame) %do% {
 
@@ -130,7 +140,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
       }
 
       data.frame(
-        m = m,
+        anlys = m,
         map_ic = map_ic[m],
         empirical_median = qs[2],
         lo = qs[1],
@@ -139,8 +149,8 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
 
     }
 
-  # not guarenteed foreach par returns in order of iteration
-  mcmc_res <- mcmc_res[sort(mcmc_res$m), ]
+  # not guaranteed foreach par returns in order of iteration
+  mcmc_res <- mcmc_res[sort(mcmc_res$anlys), ]
 
 
   res_df <-

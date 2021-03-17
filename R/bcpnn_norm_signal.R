@@ -1,19 +1,11 @@
 
 
-
-
-
-
-
-
-
-
-
-
-#' Reporting odds ratio (ROR) of a \code{2x2} contingency table
+#' BCPNN IC using normal approximation CIs for a \code{2x2} contingency table
 #'
 #' @author Ty Stanford <tystan@gmail.com>
-#' @description Reporting odds ratio (ROR) of a \code{2x2} contingency table
+#' @description
+#' Bayesian Confidence Propagation Neural Network Information Component (BCPNN IC) using
+#' normal approximation CIs for a \code{2x2} contingency table
 #' @param a also referred to as \eqn{n_{11}} as this is the count of event of interest under exposure of interest
 #' @param b also referred to as \eqn{n_{10}} as this is the count of \emph{not} event of interest under exposure of interest
 #' @param c also referred to as \eqn{n_{01}} as this is the count of event of interest under \emph{not} exposure of interest
@@ -53,10 +45,12 @@
 #'
 #' @examples
 #' # Singhal et al. p409 table 16. Int J Pharm Pharm Sci, Vol 7, Issue 6, 405-411
-#' ror_signal(28, 942, 17, 31435)
-#' ror_signal(c("Cisplatin-Ototoxicity" = 28), 942, 17, 31435)
-#' ror_signal(122, 1320, 381, 31341)
-#' ror_signal(
+#' bcpnn_norm_signal(28, 942, 17, 31435)
+#' bcpnn_norm_signal(
+#'   c("Cisplatin-Ototoxicity" = 28), 942, 17, 31435
+#' )
+#' bcpnn_norm_signal(122, 1320, 381, 31341)
+#' bcpnn_norm_signal(
 #'   c("Cisplatin-Ototoxicity" = 28, "Carboplatin-Pruritis" = 122), 
 #'   c(942, 1320), 
 #'   c(17, 381), 
@@ -65,13 +59,13 @@
 
 
 
-ror_signal <- function(a, b, c, d, alpha = 0.05) {
-
+bcpnn_norm_signal <- function(a, b, c, d, alpha = 0.05) {
+  
   # make sure values are positive integers
   check_all_positive_ints(a, b, c, d)
   # make sure we have equal number of elements in each of a, b, c, d
   check_lengths_equal(a, b, c, d)
-
+  
   # inherit names of `a` vector if they exist
   analysis_names <- names(a)
   if (is.null(analysis_names)) {
@@ -79,38 +73,52 @@ ror_signal <- function(a, b, c, d, alpha = 0.05) {
     n_a_digits <- nchar(as.character(n_a))
     analysis_names <- sprintf(paste0("%0", n_a_digits,".0f"), 1:n_a)
   }
-
+  
+  m_obs <- length(a)
+  na_numeric <- as.numeric(NA) # NAs by default are logical data type
+  
   n.. <- a + b + c + d
+  n11 <- a
   n1. <- a + b
   n.1 <- a + c
   E_n11 <- (n1. / n..) * n.1
-
-  # # have to check for integer overflow in R for large values (R has 32 bit (small) integers)
-  # int_overflow <- is_mult_int_overflow(b, c)
-  #
-  # log_ror <- 0
-  # if (int_overflow) {
-  #   # turn integers into doubles is the best way to handle
-  #   # may lose precision but likely only REALLY LARGE ints
-  #   log_ror <- log((a / (as.numeric(b) * as.numeric(c))) * d)
-  # } else {
-  log_ror <- log((a / b) * (d / c)) # ugly way to do ad/bc but this way avoids integer overflow
-  # }
-  var_log_ror <- 1 / a + 1 / b + 1 / c + 1 / d
-
-  log_lb <- qnorm(alpha / 2, log_ror, sqrt(var_log_ror))
-  log_ub <- qnorm(1 - alpha / 2, log_ror, sqrt(var_log_ror))
-
+  
+  p1 <- 1 + n1.
+  p2 <- 1 + n.. - n1.
+  q1 <- 1 + n.1
+  q2 <- 1 + n.. - n.1
+  r1 <- 1 + n11
+  r2b <- n.. - n11 - 1 + (2 + n..)^2 / (q1 * p1)
+  
+  # digamma and trigamma return the first and second derivatives of the logarithm of the gamma function
+  # digamma(x) = psigamma(x, deriv = 1) = d/dx{ln Gam(x)} = Gam'(x) / Gam(x)
+  E_ic <- 
+    log(2)^(-1) * (
+      digamma(r1) - digamma(r1 + r2b) - (
+        digamma(p1) - digamma(p1 + p2) + digamma(q1) - digamma(q1 + q2)
+      )
+    )
+  var_ic <- 
+    log(2)^(-2) * (
+      trigamma(r1) - trigamma(r1 + r2b) + (
+        trigamma(p1) - trigamma(p1 + p2) + trigamma(q1) - trigamma(q1 + q2)
+      )
+    )
+  
+  log2_lb <- qnorm(alpha / 2, E_ic, sqrt(var_ic))
+  log2_ub <- qnorm(1 - alpha / 2, E_ic, sqrt(var_ic))
+  
   res_df <-
     data.frame(
       analysis_names,
-      a, n1., n.1, n.., E_n11,
-      "ror", "orig scale", exp(log_ror),
-      "ln", var_log_ror, sqrt(var_log_ror),
-      alpha, exp(log_lb), exp(log_ub),
+      n11, n1., n.1,  n.., E_n11,
+      "bcpnn_norm", "log2", E_ic,
+      "log2", var_ic, sqrt(var_ic),
+      alpha, log2_lb, log2_ub,
       stringsAsFactors = FALSE # for R versions < 4.0
     )
-
+  
+  
   colnames(res_df) <-
     c(
       "analysis",
@@ -119,12 +127,9 @@ ror_signal <- function(a, b, c, d, alpha = 0.05) {
       "var_scale", "var_est", "sd_est",
       "alpha", "ci_lo", "ci_hi"
     )
-
+  
   rownames(res_df) <- NULL
-
+  
   return(res_df)
-
+  
 }
-
-
-

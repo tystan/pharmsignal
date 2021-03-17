@@ -9,8 +9,13 @@ Description: Signal detection in pharmacological data (pharmacovigilance).
     Proportional Reporting Ratio (PRR), 
     Bayesian Confidence Propagation Neural Network Information Criterion 
     (BCPNN IC, both MCMC and normal approximation) and 
-    Sequence Symmetry Analysis (SSA)
+    Sequence Symmetry Analysis (SSA).
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
+Imports: MCMCpack,
+    dplyr,
+    foreach
+Suggests:
+    testthat
 RoxygenNote: 7.1.1
