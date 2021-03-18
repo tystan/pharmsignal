@@ -1,6 +1,6 @@
 
 globalVariables(c(
-  "ci_hi", "ci_lo", "est", "est scale"
+  "ci_hi", "ci_lo", "est", "est_scale"
 ))
 
 
