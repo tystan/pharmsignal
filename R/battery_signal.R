@@ -12,7 +12,7 @@ globalVariables(c(
 #' @param b also referred to as \eqn{n_{10}} as this is the count of \emph{not} event of interest under exposure of interest
 #' @param c also referred to as \eqn{n_{01}} as this is the count of event of interest under \emph{not} exposure of interest
 #' @param d also referred to as \eqn{n_{00}} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest
-#' @param label \code{"exposure v outcome"} (default), string to append to data.frame describing data 
+#' @param label \code{"exposure v outcome"} (default), string to append as column to data.frame describing data 
 #' @param orig_scale \code{FALSE} (default), do you want the estimates to be on the ratio scale (e.g., BCPNN is on the log2 scale)
 #' @param alpha for construction of the \code{100*(1-alpha)\%} confidence intervals
 #' @param n_mcmc number of MCMC simulations per \code{(a,b,c,d)}-tuple
@@ -63,16 +63,20 @@ battery_signal <- function(
   )
   res <- as_tibble(res)
   res$lab <- label
+  
   if (orig_scale) {
     res <-
       res %>%
       mutate(
-        ci_lo = ifelse(`est scale` == "log2", 2 ^ ci_lo, ci_lo),
-        ci_hi = ifelse(`est scale` == "log2", 2 ^ ci_hi, ci_hi),
-        est   = ifelse(`est scale` == "log2", 2 ^ est  , est  ),
-        `est scale` = ifelse(`est scale` == "log2", "orig scale", `est scale`)
+        ci_lo = ifelse(est_scale == "log2", 2 ^ ci_lo, ci_lo),
+        ci_hi = ifelse(est_scale == "log2", 2 ^ ci_hi, ci_hi),
+        est   = ifelse(est_scale == "log2", 2 ^ est  , est  ),
+        est_scale = ifelse(est_scale == "log2", "orig scale", est_scale)
       )
   }
+  
   res
   
 }
+
+

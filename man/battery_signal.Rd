@@ -24,7 +24,7 @@ battery_signal(
 
 \item{d}{also referred to as \eqn{n_{00}} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest}
 
-\item{label}{\code{"exposure v outcome"} (default), string to append to data.frame describing data}
+\item{label}{\code{"exposure v outcome"} (default), string to append as column to data.frame describing data}
 
 \item{orig_scale}{\code{FALSE} (default), do you want the estimates to be on the ratio scale (e.g., BCPNN is on the log2 scale)}
 
