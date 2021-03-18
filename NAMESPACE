@@ -3,3 +3,4 @@ importFrom("MCMCpack", "rdirichlet")
 import("foreach")
 import("dplyr")
 importFrom("stats", "qnorm")
+
