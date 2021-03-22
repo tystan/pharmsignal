@@ -63,7 +63,7 @@
 bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
 
   # make sure values are positive integers
-  check_all_positive_ints(a, b, c, d)
+  check_all_positive_ints(a, b, c, d, warn_zeros = FALSE) # can ignore 0 counts for BCPNN
   # make sure we have equal number of elements in each of a, b, c, d
   check_lengths_equal(a, b, c, d)
 
@@ -77,6 +77,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
 
   m_obs <- length(a)
   na_numeric <- as.numeric(NA) # NAs by default are logical data type
+  na_char <- as.character(NA) # NAs by default are logical data type
 
   n.. <- a + b + c + d
   n11 <- a
@@ -121,7 +122,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
 
   m <- NULL # initialise (otherwise package check complains not globally available)
   mcmc_res <-
-    foreach(m = 1:m_obs, .combine = data.frame) %do% {
+    foreach(m = 1:m_obs, .combine = rbind) %do% {
 
       p <- rdirichlet(n_mcmc, c(g11[m], g10[m], g01[m], g00[m]))
       p11 <- p[, 1]
@@ -133,7 +134,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
       qs <- stats::quantile(ic_monte, c(alpha / 2, 0.5, 1 - alpha / 2))
 
 
-      # this is where the m.a.p. estimate is likely to differ from mean (Soren,)
+      # this is where the m.a.p. estimate is likely to differ from mean (Noren, 2006)
       if (n11[m] <= 10) {
         cat("Note the empirical MCMC IC median is", qs[2], "and the m.a.p. IC est is", map_ic[m])
         cat(" resulting in a difference of", round(qs[2] - map_ic[m], 3), "\n")
@@ -150,7 +151,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
     }
 
   # not guaranteed foreach par returns in order of iteration
-  mcmc_res <- mcmc_res[sort(mcmc_res$anlys), ]
+  mcmc_res <- mcmc_res[order(mcmc_res$anlys), ]
 
 
   res_df <-
@@ -158,7 +159,7 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
       analysis_names,
       n11, n1., n.1,  n.., E_n11,
       "bcpnn_mcmc", "log2", mcmc_res$map_ic,
-      na_numeric, na_numeric, na_numeric,
+      na_char, na_numeric, na_numeric,
       alpha, mcmc_res$lo, mcmc_res$hi,
       stringsAsFactors = FALSE # for R versions < 4.0
     )

@@ -62,7 +62,7 @@
 bcpnn_norm_signal <- function(a, b, c, d, alpha = 0.05) {
   
   # make sure values are positive integers
-  check_all_positive_ints(a, b, c, d)
+  check_all_positive_ints(a, b, c, d, warn_zeros = FALSE) # can ignore 0 counts for BCPNN
   # make sure we have equal number of elements in each of a, b, c, d
   check_lengths_equal(a, b, c, d)
   
@@ -92,6 +92,7 @@ bcpnn_norm_signal <- function(a, b, c, d, alpha = 0.05) {
   
   # digamma and trigamma return the first and second derivatives of the logarithm of the gamma function
   # digamma(x) = psigamma(x, deriv = 1) = d/dx{ln Gam(x)} = Gam'(x) / Gam(x)
+  # see equations (A3) and (A4) of Gould (2003). Pharmacoepidemiology and Drug Safety, 12: 559–574.
   E_ic <- 
     log(2)^(-1) * (
       digamma(r1) - digamma(r1 + r2b) - (
