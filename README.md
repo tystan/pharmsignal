@@ -3,7 +3,7 @@
 
 # `pharmsignal`
 
-Signal detection in pharmacological data (pharmacovigilance).
+Safety signal detection in pharmacological data (pharmacovigilance).
 
 Implementations of Reporting Odds Ratio (ROR),
 Proportional Reporting Ratio (PRR),
@@ -41,7 +41,7 @@ devtools::install_github('tystan/pharmsignal')
 library(pharmsignal)
 
 # The example values are taken from Table III (page 3749) of:
-# Noren et al. (2006). Stats in Med, 25:3740–3757.
+# Noren et al. (2006). Stats in Med, 25:3740–3757 (DOI: 10.1002/sim.2473).
 
 n11 <- 25
 n1. <- 1126
