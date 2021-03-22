@@ -40,8 +40,8 @@ library(devtools) # see https://www.r-project.org/nosvn/pandoc/devtools.html
 devtools::install_github('tystan/pharmsignal')
 library(pharmsignal)
 
-# The example values are taken from:
-# see Noren et al. (2006). Stats in Med, 25:3740–3757. (Table III, page 3749)
+# The example values are taken from Table III (page 3749) of:
+# Noren et al. (2006). Stats in Med, 25:3740–3757.
 
 n11 <- 25
 n1. <- 1126
