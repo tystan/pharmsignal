@@ -7,33 +7,19 @@
 bcpnn_mcmc_signal(a, b, c, d, alpha = 0.05, n_mcmc = 1e+05)
 }
 \arguments{
-\item{a}{also referred to as \eqn{n_{11}} as this is the count of event of interest under exposure of interest}
+\item{a}{also referred to as \eqn{n_{11}}{n11} as this is the count of event of interest under exposure of interest}
 
-\item{b}{also referred to as \eqn{n_{10}} as this is the count of \emph{not} event of interest under exposure of interest}
+\item{b}{also referred to as \eqn{n_{10}}{n10} as this is the count of \emph{not} event of interest under exposure of interest}
 
-\item{c}{also referred to as \eqn{n_{01}} as this is the count of event of interest under \emph{not} exposure of interest}
+\item{c}{also referred to as \eqn{n_{01}}{n01} as this is the count of event of interest under \emph{not} exposure of interest}
 
-\item{d}{also referred to as \eqn{n_{00}} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest}
+\item{d}{also referred to as \eqn{n_{00}}{n00} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest}
 
 \item{alpha}{for construction of the \code{100*(1-alpha)\%} confidence intervals}
 
 \item{n_mcmc}{number of MCMC simulations per \code{(a,b,c,d)}-tuple}
 }
-\description{
-Bayesian Confidence Propagation Neural Network Information Critereon (BCPNN IC) using
-Markov Chain Monte Carlo (MCMC) for a \code{2x2} contingency table
-}
-\details{
-It is assumed that the contingency table under consideration has drugs/exposures in the rows and outcomes/events in the columns.
-
-Let's assume we are interested in drug Y and outcome Z, the contingency table will look like this
-
-\tabular{ccc}{
-. \tab outcome Z \tab not outcome Z\cr
-drug Y \tab \code{a}=\eqn{n_{11}} \tab \code{b}=\eqn{n_{10}} \cr
-not drug Y \tab \code{c}=\eqn{n_{01}}  \tab \code{d}=\eqn{n_{00}} \cr
-}
-
+\value{
 The function returns a \code{data.frame} with the following columns:
 
 \itemize{
@@ -52,6 +38,24 @@ The function returns a \code{data.frame} with the following columns:
   \item \code{alpha}: alpha level supplied for the \code{100*(1-alpha)\%} confidence intervals
   \item \code{ci_lo}: lower bound of the \code{100*(1-alpha)\%} confidence interval
   \item \code{ci_hi}: upper bound of the \code{100*(1-alpha)\%} confidence interval
+}
+}
+\description{
+Bayesian Confidence Propagation Neural Network Information Critereon (BCPNN IC) using
+Markov Chain Monte Carlo (MCMC) for a \code{2x2} contingency table
+}
+\details{
+Note that the \code{a},\code{b},\code{c},\code{d} inputs may be vectors of equal length, for which the function
+will perform the calculations for each individual \code{(a,b,c,d)}-tuple moving across the vectors. 
+
+It is assumed that the contingency table under consideration has drugs/exposures in the rows and outcomes/events in the columns.
+
+Let's assume we are interested in drug Y and outcome Z, the contingency table will look like this
+
+\tabular{ccc}{
+. \tab outcome Z \tab not outcome Z\cr
+drug Y \tab \code{a}=\eqn{n_{11}}{n11} \tab \code{b}=\eqn{n_{10}}{n10} \cr
+not drug Y \tab \code{c}=\eqn{n_{01}}{n01}  \tab \code{d}=\eqn{n_{00}}{n00} \cr
 }
 }
 \examples{

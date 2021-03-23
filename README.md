@@ -24,9 +24,9 @@ Signal detection of adverse drug events often requires analysis of tabulated cou
 This package has functions to calculate the following signal detection methods:
 
 * `ror_signal()`: ROR with `100(1-alpha/2)%` confidence intervals 
-* `ror_signal()`: PRR with `100(1-alpha/2)%` confidence intervals 
+* `prr_signal()`: PRR with `100(1-alpha/2)%` confidence intervals 
 * `bcpnn_norm_signal()`: BCPNN IC using the 'exact' expectation and variance of the the IC posterior distribution of Gould (2003) using a normal approximation to construct the `100(1-alpha/2)%` confidence interval on the log_2 scale (see equations (A3) and (A4) of the Appendix)
-* `bcpnn_mcmc_signal()`: BCPNN IC using the maximum a posteriori (m.a.p.) central estimate of the IC with MCMC simulation of the exact empirical distribution for `100(1-alpha/2)%` confidence (credible) regions of Noren (2006) 
+* `bcpnn_mcmc_signal()`: BCPNN IC using the *maximum a posteriori* (m.a.p.) central estimate of the IC with MCMC simulation of the exact empirical distribution for `100(1-alpha/2)%` confidence (credible) regions of Noren (2006) 
 
 
 
