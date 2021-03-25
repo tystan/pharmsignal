@@ -12,7 +12,6 @@ globalVariables(c(
 #' @param b also referred to as \eqn{n_{10}}{n10} as this is the count of \emph{not} event of interest under exposure of interest
 #' @param c also referred to as \eqn{n_{01}}{n01} as this is the count of event of interest under \emph{not} exposure of interest
 #' @param d also referred to as \eqn{n_{00}}{n00} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest
-#' @param label \code{"exposure v outcome"} (default), string to append as column to data.frame describing data 
 #' @param orig_scale \code{FALSE} (default), do you want the estimates to be on the ratio scale (e.g., BCPNN is on the log2 scale)
 #' @param alpha for construction of the \code{100*(1-alpha)\%} confidence intervals
 #' @param n_mcmc number of MCMC simulations per \code{(a,b,c,d)}-tuple
@@ -55,18 +54,17 @@ globalVariables(c(
 
 battery_signal <- function(
   a, b, c, d, 
-  label = "exposure v outcome", orig_scale = FALSE, 
+  orig_scale = FALSE, 
   alpha = 0.05, n_mcmc = 1e5
 ) {
   
-  res <- rbind(
-    ror_signal(a, b, c, d, alpha = alpha),
-    prr_signal(a, b, c, d, alpha = alpha),
-    bcpnn_norm_signal(a, b, c, d, alpha = alpha),
-    bcpnn_mcmc_signal(a, b, c, d, alpha = alpha, n_mcmc = n_mcmc)
-  )
-  res <- as_tibble(res)
-  res$lab <- label
+  res <- 
+    as_tibble(rbind(
+      ror_signal(a, b, c, d, alpha = alpha),
+      prr_signal(a, b, c, d, alpha = alpha),
+      bcpnn_norm_signal(a, b, c, d, alpha = alpha),
+      bcpnn_mcmc_signal(a, b, c, d, alpha = alpha, n_mcmc = n_mcmc)
+    ))
   
   if (orig_scale) {
     res <-
