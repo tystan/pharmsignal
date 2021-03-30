@@ -87,7 +87,7 @@ nx2_to_signal <- function(nx2_tab, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e
       
       if (a >= min_events) {
         
-        lab <- 
+        names(a) <-
           paste(
             drg_i, "/", not_drg_i, 
             " vs ", 
@@ -111,7 +111,6 @@ nx2_to_signal <- function(nx2_tab, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e
         drg_i_signal <-
           battery_signal(
             a, b, c, d,
-            label = lab, 
             orig_scale = orig_scale, alpha = alpha, n_mcmc = n_mcmc
           )
         
