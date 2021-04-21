@@ -138,11 +138,11 @@ bcpnn_mcmc_signal <- function(a, b, c, d, alpha = 0.05, n_mcmc = 1e5) {
       qs <- stats::quantile(ic_monte, c(alpha / 2, 0.5, 1 - alpha / 2))
 
 
-      # this is where the m.a.p. estimate is likely to differ from mean (Noren, 2006)
-      if (n11[m] <= 10) {
-        cat("Note the empirical MCMC IC median is", qs[2], "and the m.a.p. IC est is", map_ic[m])
-        cat(" resulting in a difference of", round(qs[2] - map_ic[m], 3), "\n")
-      }
+      ## this is where the m.a.p. estimate is likely to differ from mean (Noren, 2006)
+      # if (n11[m] <= 10) {
+      #   cat("Note the empirical MCMC IC median is", qs[2], "and the m.a.p. IC est is", map_ic[m])
+      #   cat(" resulting in a difference of", round(qs[2] - map_ic[m], 3), "\n")
+      # }
 
       data.frame(
         anlys = m,

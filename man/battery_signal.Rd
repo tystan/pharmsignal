@@ -4,16 +4,7 @@
 \alias{battery_signal}
 \title{ROR, PRR, BCPNN (MCMC and norm) of a \code{2x2} contingency table}
 \usage{
-battery_signal(
-  a,
-  b,
-  c,
-  d,
-  label = "exposure v outcome",
-  orig_scale = FALSE,
-  alpha = 0.05,
-  n_mcmc = 1e+05
-)
+battery_signal(a, b, c, d, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e+05)
 }
 \arguments{
 \item{a}{also referred to as \eqn{n_{11}}{n11} as this is the count of event of interest under exposure of interest}
@@ -23,8 +14,6 @@ battery_signal(
 \item{c}{also referred to as \eqn{n_{01}}{n01} as this is the count of event of interest under \emph{not} exposure of interest}
 
 \item{d}{also referred to as \eqn{n_{00}}{n00} as this is the count of \emph{not} event of interest under \emph{not} exposure of interest}
-
-\item{label}{\code{"exposure v outcome"} (default), string to append as column to data.frame describing data}
 
 \item{orig_scale}{\code{FALSE} (default), do you want the estimates to be on the ratio scale (e.g., BCPNN is on the log2 scale)}
 
