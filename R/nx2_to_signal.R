@@ -16,6 +16,7 @@ globalVariables(c(
 #' @param alpha for construction of the \code{100*(1-alpha)\%} confidence intervals
 #' @param n_mcmc number of MCMC simulations per \code{(a,b,c,d)}-tuple
 #' @param min_events the minimum number of events of interest for each drug/exposure to generate signal calculations. Default is 3.
+#' @param warn if the minimum number of events of interest not met, should a warning/note be printed to the console. Default is \code{FALSE}.
 #' @export
 #' @details
 #' In addition to \code{nx2_tab} representing counts with n >= rows and 2 columns, the \code{class} of \code{nx2_tab}
@@ -35,7 +36,7 @@ globalVariables(c(
 #' (drg_tab <- table(drg, outc))
 #' nx2_to_signal(drg_tab, orig_scale = TRUE)
 
-nx2_to_signal <- function(nx2_tab, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e5, min_events = 3) {
+nx2_to_signal <- function(nx2_tab, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e5, min_events = 3, warn = FALSE) {
   
   # make sure we have not NULL or NA vals, valid positive integer values etc
   check_all_positive_ints(as.vector(nx2_tab), warn_zeros = FALSE)
@@ -120,7 +121,9 @@ nx2_to_signal <- function(nx2_tab, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e
         
       } else {
         
-        cat("NOTE:", drg_i, "did not have", min_events, "or more events of interest to produce output.\n")
+        if (warn) {
+          cat("NOTE:", drg_i, "did not have", min_events, "or more events of interest to produce output.\n")
+        }
         NULL # no data.frame entries for those drugs not meeting min_events
         
       }

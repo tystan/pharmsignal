@@ -9,7 +9,8 @@ nx2_to_signal(
   orig_scale = FALSE,
   alpha = 0.05,
   n_mcmc = 1e+05,
-  min_events = 3
+  min_events = 3,
+  warn = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ being other events. The rows are \code{n} drugs/exposures.}
 \item{n_mcmc}{number of MCMC simulations per \code{(a,b,c,d)}-tuple}
 
 \item{min_events}{the minimum number of events of interest for each drug/exposure to generate signal calculations. Default is 3.}
+
+\item{warn}{if the minimum number of events of interest not met, should a warning/note be printed to the console. Default is \code{FALSE}.}
 }
 \value{
 The function returns a \code{data.frame} that is returned for \code{battery_signal()} for each of 

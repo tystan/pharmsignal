@@ -25,8 +25,8 @@ This package has functions to calculate the following signal detection methods:
 
 * `ror_signal()`: ROR with `100(1-alpha/2)%` confidence intervals 
 * `prr_signal()`: PRR with `100(1-alpha/2)%` confidence intervals 
-* `bcpnn_norm_signal()`: BCPNN IC using the 'exact' expectation and variance of the the IC posterior distribution of Gould (2003) using a normal approximation to construct the `100(1-alpha/2)%` confidence interval on the log_2 scale (see equations (A3) and (A4) of the Appendix)
-* `bcpnn_mcmc_signal()`: BCPNN IC using the *maximum a posteriori* (m.a.p.) central estimate of the IC with MCMC simulation of the exact empirical distribution for `100(1-alpha/2)%` confidence (credible) regions of Noren (2006) 
+* `bcpnn_norm_signal()`: BCPNN IC using the 'exact' expectation and variance of the the IC posterior distribution of [Gould (2003)](https://doi.org/10.1002/pds.771) using a normal approximation to construct the `100(1-alpha/2)%` confidence interval on the log_2 scale (see equations (A3) and (A4) of the Appendix)
+* `bcpnn_mcmc_signal()`: BCPNN IC using the *maximum a posteriori* (m.a.p.) central estimate of the IC with MCMC simulation of the exact empirical distribution for `100(1-alpha/2)%` confidence (credible) regions of [Noren (2006)](https://doi.org/10.1002/sim.2473)
 
 
 
@@ -73,5 +73,16 @@ results_tab[, (half_cols + 1):n_cols]
 
 
 ```
+
+
+## Acknowledgements
+
+
+The BCPNN calculations have been altered from that found in the [PhViD](https://cran.r-project.org/package=PhViD) package. 
+
+I have attempted to contact the authors about the incorrect use of `log()` instead of `log2()` in the code [here](https://github.com/cran/PhViD/blob/bbb450c3837c6001710a328d382a27e856e601d8/R/BCPNN.R#L84) without luck.
+
+
+
 
 
