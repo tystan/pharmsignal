@@ -4,7 +4,7 @@
 #'
 #' @author Ty Stanford <tystan@gmail.com>
 #' @description
-#' Observed-to-expected ratios with imple shrinkag of Norén (2013) for a \code{2x2} contingency table
+#' Observed-to-expected ratios with simple shrinkage of Norén (2013) for a \code{2x2} contingency table
 #' @param a also referred to as \eqn{n_{11}}{n11} as this is the count of event of interest under exposure of interest
 #' @param b also referred to as \eqn{n_{10}}{n10} as this is the count of \emph{not} event of interest under exposure of interest
 #' @param c also referred to as \eqn{n_{01}}{n01} as this is the count of event of interest under \emph{not} exposure of interest
@@ -18,7 +18,7 @@
 #' The observed to expected (OE) ratio with approximate \code{100*(1-alpha)\%} confidence intervals
 #' are constructed on the log2 scale as outlined in Norén et al. (2013).
 #' 
-#' The observed to expected (OE) ratio with shrinkage estimates is simply \code{(O + alpha1) / (E + alpha2)}.
+#' The OE ratio with shrinkage estimates is calculated as \code{(O + alpha1) / (E + alpha2)}.
 #' 
 #' If \code{(O + alpha1)} < \code{1}, then the exact uncertainty limits should be used. 
 #' That is the \code{100*(1-alpha)\%} confidence intervals as implemented in \code{bcpnn_mcmc_signal()} (Norén et al., 2013).
