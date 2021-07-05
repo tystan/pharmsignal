@@ -34,8 +34,8 @@ The function returns a \code{data.frame} with the following columns:
   \item \code{var_est}: variance of the log_e(PRR) estimate
   \item \code{sd_est}: standard deviation of the log_e(PRR) estimate
   \item \code{alpha}: alpha level supplied for the \code{100*(1-alpha)\%} confidence intervals
-  \item \code{ci_lo}: lower bound of the \code{100*(1-alpha)\%} confidence interval
-  \item \code{ci_hi}: upper bound of the \code{100*(1-alpha)\%} confidence interval
+  \item \code{ci_lo}: lower bound of the \code{100*(1-alpha)\%} confidence interval on the \code{est_scale}
+  \item \code{ci_hi}: upper bound of the \code{100*(1-alpha)\%} confidence interval on the \code{est_scale}
 }
 }
 \description{
@@ -66,6 +66,12 @@ prr_signal(
   c(17, 381), 
   c(31435, 31341)
 )
+}
+\seealso{
+\code{\link{bcpnn_mcmc_signal}}, 
+\code{\link{bcpnn_norm_signal}}, 
+\code{\link{ror_signal}}, 
+\code{\link{obsexp_shrink_signal}}
 }
 \author{
 Ty Stanford <tystan@gmail.com>

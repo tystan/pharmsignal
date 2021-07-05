@@ -49,11 +49,12 @@ test_that("battery_signal() is equiv to ror, prr etc for scalar values", {
   str_1_prr <- prr_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   str_1_bno <- bcpnn_norm_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   str_1_bmc <- bcpnn_mcmc_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
+  str_1_oer <- obsexp_shrink_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   
   
   expect_equal(
     str_1_bat[, !(colnames(str_1_bat) %in% c("lab", "analysis"))],
-    dplyr::as_tibble(dplyr::bind_rows(str_1_ror, str_1_prr, str_1_bno, str_1_bmc))[, -1]
+    dplyr::as_tibble(dplyr::bind_rows(str_1_ror, str_1_prr, str_1_bno, str_1_bmc, str_1_oer))[, -1]
   )
 
   
@@ -81,11 +82,12 @@ test_that("battery_signal() battery_signal() is equiv to ror, prr etc for __vect
   vec_prr <- prr_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   vec_bno <- bcpnn_norm_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   vec_bmc <- bcpnn_mcmc_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
+  vec_oer <- obsexp_shrink_signal(n11, n1. - n11, n.1 - n11, n.. - n11 - (n1. - n11) - (n.1 - n11))
   
   
   expect_equal(
     vec_bat[, !(colnames(vec_bat) %in% c("lab", "analysis"))],
-    dplyr::as_tibble(dplyr::bind_rows(vec_ror, vec_prr, vec_bno, vec_bmc))[, -1],
+    dplyr::as_tibble(dplyr::bind_rows(vec_ror, vec_prr, vec_bno, vec_bmc, vec_oer))[, -1],
     tolerance = 1e-3 # mcmc estimates have different seeds
   )
   

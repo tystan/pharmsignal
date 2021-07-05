@@ -27,15 +27,15 @@ The function returns a \code{data.frame} with the following columns:
   \item \code{event margin}: margin for outcome Z (\code{a + c})
   \item \code{n..}: total count from contingency table (\code{a + b + c + d})
   \item \code{E_n11}: expected value of \code{n11} based on margins (\code{(a + b) * (a + c) / (a + b + c + d)})
-  \item \code{est_name}: \code{"ror"}
-  \item \code{est_scale}: \code{"orig scale"}
-  \item \code{est}: ROR estimate on original scale (not log_e)
-  \item \code{var_scale}: \code{"ln"}
-  \item \code{var_est}: variance of the log_e(ROR) estimate
-  \item \code{sd_est}: standard deviation of the log_e(ROR) estimate
+  \item \code{est_name}: \code{"bcpnn_norm"}
+  \item \code{est_scale}: \code{"log2"}
+  \item \code{est}: bcpnn_norm estimate on log2 scale
+  \item \code{var_scale}: \code{"log2"}
+  \item \code{var_est}: variance of the log_2(bcpnn_norm) estimate
+  \item \code{sd_est}: standard deviation of the log_2(bcpnn_norm) estimate
   \item \code{alpha}: alpha level supplied for the \code{100*(1-alpha)\%} confidence intervals
-  \item \code{ci_lo}: lower bound of the \code{100*(1-alpha)\%} confidence interval
-  \item \code{ci_hi}: upper bound of the \code{100*(1-alpha)\%} confidence interval
+  \item \code{ci_lo}: lower bound of the \code{100*(1-alpha)\%} confidence interval on the \code{est_scale}
+  \item \code{ci_hi}: upper bound of the \code{100*(1-alpha)\%} confidence interval on the \code{est_scale}
 }
 }
 \description{
@@ -69,6 +69,12 @@ bcpnn_norm_signal(
   c(17, 381), 
   c(31435, 31341)
 )
+}
+\seealso{
+\code{\link{bcpnn_mcmc_signal}}, 
+\code{\link{ror_signal}}, 
+\code{\link{prr_signal}},
+\code{\link{obsexp_shrink_signal}}
 }
 \author{
 Ty Stanford <tystan@gmail.com>

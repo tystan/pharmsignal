@@ -71,7 +71,7 @@ check_all_positive_ints <- function(..., warn_zeros = TRUE) {
 
   for (i in 1:ndots) {
     if (!all(is.numeric(dots[[i]]))) {
-      stop("Supplied values must be integer/numeric")
+      stop("Supplied values must be numeric")
     }
   }
 

@@ -2,9 +2,19 @@
 % Please edit documentation in R/battery_signal.R
 \name{battery_signal}
 \alias{battery_signal}
-\title{ROR, PRR, BCPNN (MCMC and norm) of a \code{2x2} contingency table}
+\title{ROR, PRR, BCPNN (MCMC and norm), obs-exp ratio of a \code{2x2} contingency table}
 \usage{
-battery_signal(a, b, c, d, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e+05)
+battery_signal(
+  a,
+  b,
+  c,
+  d,
+  orig_scale = FALSE,
+  alpha = 0.05,
+  n_mcmc = 1e+05,
+  alpha1 = 0.5,
+  alpha2 = 0.5
+)
 }
 \arguments{
 \item{a}{also referred to as \eqn{n_{11}}{n11} as this is the count of event of interest under exposure of interest}
@@ -19,7 +29,11 @@ battery_signal(a, b, c, d, orig_scale = FALSE, alpha = 0.05, n_mcmc = 1e+05)
 
 \item{alpha}{for construction of the \code{100*(1-alpha)\%} confidence intervals}
 
-\item{n_mcmc}{number of MCMC simulations per \code{(a,b,c,d)}-tuple}
+\item{n_mcmc}{number of MCMC simulations per \code{(a,b,c,d)}-tuple (for BCPNN MCMC estimation only)}
+
+\item{alpha1}{(default \code{0.5}) the numerator shrinkage parameter \code{>=0} (for observed-expected ratio estimation only)}
+
+\item{alpha2}{(default \code{0.5}) the denominator shrinkage parameter \code{>=0} (for observed-expected ratio estimation only)}
 }
 \value{
 The function returns a \code{data.frame} with the following columns and rows corresponding to 
@@ -44,7 +58,7 @@ The function returns a \code{data.frame} with the following columns and rows cor
 }
 }
 \description{
-ROR, PRR, BCPNN (MCMC and norm) of a \code{2x2} contingency table
+ROR, PRR, BCPNN (MCMC and norm), obs-exp ratio of a \code{2x2} contingency table
 }
 \details{
 Note that the \code{a},\code{b},\code{c},\code{d} inputs may be vectors of equal length, for which the function
@@ -59,6 +73,13 @@ Let's assume we are interested in drug Y and outcome Z, the contingency table wi
 drug Y \tab \code{a}=\eqn{n_{11}}{n11} \tab \code{b}=\eqn{n_{10}}{n10} \cr
 not drug Y \tab \code{c}=\eqn{n_{01}}{n01}  \tab \code{d}=\eqn{n_{00}}{n00} \cr
 }
+}
+\seealso{
+\code{\link{bcpnn_mcmc_signal}}, 
+\code{\link{bcpnn_norm_signal}}, 
+\code{\link{ror_signal}}, 
+\code{\link{prr_signal}},
+\code{\link{obsexp_shrink_signal}}
 }
 \author{
 Ty Stanford <tystan@gmail.com>

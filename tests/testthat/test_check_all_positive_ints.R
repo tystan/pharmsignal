@@ -2,9 +2,6 @@ context("check_all_positive_ints() checks")
 
 
 
-#'
-
-#'
 
 
 
@@ -15,7 +12,7 @@ test_that("check_all_positive_ints() correctly throws errors for bad input", {
   # these will throw errors
   expect_error(
     check_all_positive_ints(1, character(0)), 
-    "Supplied values must be integer/numeric"
+    "Supplied values must be numeric"
   )
   expect_error(
     check_all_positive_ints(1, numeric(0)), 

@@ -8,7 +8,8 @@ Safety signal detection in pharmacological data (pharmacovigilance).
 Implementations of Reporting Odds Ratio (ROR),
 Proportional Reporting Ratio (PRR),
 Bayesian Confidence Propagation Neural Network Information Component
-(BCPNN IC, both MCMC and normal approximation) and
+(BCPNN IC, both MCMC and normal approximation), 
+observed-to-expected ratio with simple shrinkage, and
 Sequence Symmetry Analysis (SSA).
 
 
@@ -27,6 +28,7 @@ This package has functions to calculate the following signal detection methods:
 * `prr_signal()`: PRR with `100(1-alpha/2)%` confidence intervals 
 * `bcpnn_norm_signal()`: BCPNN IC using the 'exact' expectation and variance of the the IC posterior distribution of [Gould (2003)](https://doi.org/10.1002/pds.771) using a normal approximation to construct the `100(1-alpha/2)%` confidence interval on the log_2 scale (see equations (A3) and (A4) of the Appendix)
 * `bcpnn_mcmc_signal()`: BCPNN IC using the *maximum a posteriori* (m.a.p.) central estimate of the IC with MCMC simulation of the exact empirical distribution for `100(1-alpha/2)%` confidence (credible) regions of [Noren (2006)](https://doi.org/10.1002/sim.2473)
+* `obsexp_shrink_signal()`: Observed-to-expected ratio with simple shrinkage transformation  `100(1-alpha/2)%` confidence (credible) regions of [Noren (2013)](https://doi.org/10.1177%2F0962280211403604)
 
 
 
